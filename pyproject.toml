@@ -1,0 +1,77 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "otp-token-generator"
+version = "1.0.0"
+description = "A simple desktop application to generate TOTP tokens from OTPAuth URIs"
+readme = "README.md"
+license = "MIT"
+authors = [{ name = "OTP Token Generator Team" }]
+keywords = ["otp", "totp", "2fa", "authentication", "desktop", "gui"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: End Users/Desktop",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Security",
+    "Topic :: Utilities",
+]
+requires-python = ">=3.8"
+dependencies = ["pyotp>=2.9.0"]
+
+[project.optional-dependencies]
+dev = ["pytest>=7.0.0", "ruff>=0.1.0", "mypy>=1.0.0"]
+build = ["pyinstaller>=5.0.0"]
+
+[project.urls]
+Homepage = "https://github.com/yourusername/otp-token-generator"
+Repository = "https://github.com/yourusername/otp-token-generator"
+Issues = "https://github.com/yourusername/otp-token-generator/issues"
+
+[project.scripts]
+otp-generator = "otp_generator:main"
+
+[tool.setuptools]
+py-modules = ["otp_generator"]
+
+[tool.ruff]
+target-version = "py38"
+line-length = 125
+select = [
+    "E",  # pycodestyle errors
+    "W",  # pycodestyle warnings
+    "F",  # pyflakes
+    "I",  # isort
+    "B",  # flake8-bugbear
+    "C4", # flake8-comprehensions
+    "UP", # pyupgrade
+]
+ignore = [
+    "E501", # line too long, handled by line-length
+    "B008", # do not perform function calls in argument defaults
+]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "auto"
+
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
