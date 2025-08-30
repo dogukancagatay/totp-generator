@@ -56,7 +56,7 @@ def test_totp_generation():
         print("✗ Current token validation failed")
 
     # Test with a wrong token
-    wrong_token = "123456"
+    wrong_token = "000000"
     if not totp.verify(wrong_token):
         print("✓ Wrong token correctly rejected")
     else:
