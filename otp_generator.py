@@ -121,8 +121,7 @@ class OTPGeneratorApp:
     def paste_from_clipboard(self) -> None:
         """Paste OTPAuth URI from clipboard"""
         try:
-            clipboard_content = self.root.clipboard_get()
-            if clipboard_content:
+            if clipboard_content := self.root.clipboard_get():
                 self.otpauth_uri.set(clipboard_content.strip())
             else:
                 messagebox.showerror("Error", "Clipboard is empty")
@@ -152,8 +151,12 @@ class OTPGeneratorApp:
 
             return secret
 
+        except ValueError as ve:
+            raise ValueError(f"Failed to parse OTPAuth URI: {str(ve)}")
         except Exception as e:
-            raise ValueError(f"Failed to parse OTPAuth URI: {str(e)}")
+            import logging
+            logging.exception("Unexpected error while parsing OTPAuth URI")
+            raise
 
     def generate_token(self) -> None:
         """Generate TOTP token from the entered URI"""
@@ -202,7 +205,10 @@ class OTPGeneratorApp:
             self.progress_bar["value"] = progress
 
         except Exception as e:
-            print(f"Error updating token: {e}")
+            messagebox.showerror("Token Update Error", f"Failed to update token: {str(e)}")
+            self.current_token.set("")
+            self.time_remaining.set("Token unavailable")
+            self.progress_bar["value"] = 0
 
     def start_token_update(self) -> None:
         """Start the automatic updates using tkinter's after method"""
